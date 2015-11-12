@@ -143,17 +143,17 @@
 
         <div class="content-top">
             <div class="row highlights">
-                <div class="col-md-4 top-grid">
+                <div class="col-sm-4 top-grid">
                     <img class="img-responsive" th:src="@{/resources/images/highlight_skiing.png}" title="滑雪" />
                     <h4>滑雪</h4>
                     <p>滑雪是运动员把滑雪板装在靴底上在雪地上进行速度、跳跃和滑降的竞赛运动。滑雪板用木材、金属材料和塑料混合制成。高山滑雪由滑降，小回转和大回转（障碍滑雪）组成。</p>
                 </div>
-                <div class="col-md-4 top-grid">
+                <div class="col-sm-4 top-grid">
                     <img class="img-responsive" th:src="@{/resources/images/highlight_hiking.png}" title="徒步" />
                     <h4>徒步</h4>
                     <p>徒步（tú bù）指步行，也是平民的代称。徒步，根据穿越区域的不同，可以分为城郊、乡村、山地、江河等很多分类徒步。但是徒步在大多数情况下是在城郊和乡村间进行。</p>
                 </div>
-                <div class="col-md-4 top-grid">
+                <div class="col-sm-4 top-grid">
                     <img class="img-responsive" src="./resources/images/highlight_riding.png" title="骑行" />
                     <h4>骑行</h4>
                     <p>骑行是一种健康自然的运动旅游方式，能充分享受旅行过程之美的运动。一辆自行车配上一个背包，穿上骑行服，驶过颠簸的路途，不断而来的困难当中体验挑战，在遥远的他乡体验风情，在旅途的终点体验成功。</p>
@@ -166,7 +166,7 @@
         </div>
 
         <div class="row">
-            <div th:each="product : ${productList}" class="col-md-6 card" th:onclick="${product.date == null} ? '' : 'gotoDetails(\'' + ${product.id} + '\');'"
+            <div th:each="product : ${productList}" class="col-sm-6 card" th:onclick="${product.date == null} ? '' : 'gotoDetails(\'' + ${product.id} + '\');'"
                 th:style="${product.date == null} ? '' : 'cursor: pointer;'">
                 <div class="card-banner" th:style="${product.banner}">
                     <table>
@@ -192,7 +192,7 @@
 
         <div th:replace="fragments/footer :: footer">&copy; 2013 The Static Templates</div>
     </div>
-    <a href="#" class="back-to-top"><img alt="" src="/resources/images/totop.png"/></a>
+    <a href="#" class="back-to-top"><img alt="" src="/resources/images/totop.png" th:src="@{/resources/images/totop.png}" /></a>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
@@ -246,5 +246,6 @@
             }).trigger('resize');
         });
     </script>
+    <div th:remove="tag" th:replace="fragments/signupForm :: signupFormValidation"></div>
 </body>
 </html>

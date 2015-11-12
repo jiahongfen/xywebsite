@@ -10,7 +10,7 @@ public class OrderForm {
     private String contactName;
 
     @NotBlank(message = OrderForm.NOT_BLANK_MESSAGE)
-    private String number;
+    private String phone;
 
     @NotBlank(message = OrderForm.NOT_BLANK_MESSAGE)
     private String adults;
@@ -20,7 +20,7 @@ public class OrderForm {
     private String comment;
 
     public Ordar createOrder() {
-        return new Ordar(getContactName(), getNumber(), toInt(getAdults()), toInt(getKids()), getComment());
+        return new Ordar(getContactName(), getPhone(), toInt(getAdults()), toInt(getKids()), getComment());
     }
 
     public int toInt(String s) {
@@ -41,12 +41,12 @@ public class OrderForm {
         this.contactName = contactName;
     }
 
-    public String getNumber() {
-        return number;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setNumber(String number) {
-        this.number = number;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getAdults() {

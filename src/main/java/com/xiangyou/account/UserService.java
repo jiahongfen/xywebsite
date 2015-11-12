@@ -13,7 +13,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.util.StringUtils;
 
 public class UserService implements UserDetailsService {
@@ -29,7 +28,7 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Account account = accountRepository.findByNumberOrEmail(username);
+        Account account = accountRepository.findByPhoneOrEmail(username);
         if (account == null) {
             throw new UsernameNotFoundException("user not found");
         }
@@ -45,8 +44,17 @@ public class UserService implements UserDetailsService {
                 Collections.singleton(createAuthority(account)));
     }
 
+    public Authentication authenticate(String username) {
+        Account account = accountRepository.findByPhoneOrEmail(username);
+        if (account == null) {
+            throw new UsernameNotFoundException("user not found");
+        }
+        return new UsernamePasswordAuthenticationToken(createUser(account), null,
+                Collections.singleton(createAuthority(account)));
+    }
+
     private User createUser(Account account) {
-        return new User(!StringUtils.isEmpty(account.getNumber()) ? account.getNumber() : account.getEmail(),
+        return new User(!StringUtils.isEmpty(account.getPhone()) ? account.getPhone() : account.getEmail(),
                 account.getPassword(), Collections.singleton(createAuthority(account)));
     }
 

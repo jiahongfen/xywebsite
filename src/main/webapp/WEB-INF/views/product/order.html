@@ -51,10 +51,10 @@
                     <span class="help-block" th:if="${#fields.hasErrors('contactName')}" th:errors="*{contactName}">Incorrect contact name</span>
                 </div>
             </div>
-            <div class="form-group form-group-padding" th:classappend="${#fields.hasErrors('number')}? 'has-error'">
+            <div class="form-group form-group-padding" th:classappend="${#fields.hasErrors('phone')}? 'has-error'">
                 <div>
-                    <input id="number" class="form-control" value="" type="text" placeholder="联系电话" th:field="*{number}" />
-                    <span class="help-block" th:if="${#fields.hasErrors('number')}" th:errors="*{number}">Incorrect number</span>
+                    <input id="phone" class="form-control" value="" type="text" placeholder="联系电话" th:field="*{phone}" />
+                    <span class="help-block" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Incorrect phone</span>
                 </div>
             </div>
             <div class="form-group form-group-padding">

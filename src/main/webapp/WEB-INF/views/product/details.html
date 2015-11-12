@@ -33,7 +33,7 @@
         <div class="jumbotron" style="background-color: white;">
             <h2 style="margin-top: 0" th:text="${product.name}">Title</h2>
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-sm-6">
                     <!-- Swiper -->
                     <div class="swiper-container">
                         <div class="swiper-wrapper" th:each="slide : ${product.slides}" >
@@ -43,7 +43,7 @@
                         <div class="swiper-pagination"></div>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-sm-6">
                     <br/>
                     <span th:utext="${product.brief}"></span>
                     <br/>
@@ -62,7 +62,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-sm-12">
                 <table class="sub-title">
                     <tr>
                         <td><h4 style="padding-left: 15px; color: white;">行程介绍</h4></td>
@@ -73,13 +73,13 @@
         </div>
         <div class="jour-plan">
             <div class="row" th:each="day,iterStat : ${product.journey}">
-                <div class="col-md-6">
+                <div class="col-sm-6">
                     <span class="day-icon"></span>
                     <div><span style="font-size: x-large; color: #1DB5FF; font-weight: bolder;" th:text="${day.index} + 'Day'">Day</span> <span th:utext="${day.title}"></span></div>
                     <div th:utext="${day.details}"></div>
                 </div>
-                <div class="col-md-6">
-                    <div class="col-md-6 jour-pic-wrapper" th:each="picture : ${day.pictures}" style="padding: 5px;"><img alt="" th:src="${picture.value}" width="100%" height="auto" /><br/><div class=''>
+                <div class="col-sm-6">
+                    <div class="col-sm-6 jour-pic-wrapper" th:each="picture : ${day.pictures}" style="padding: 5px;"><img alt="" th:src="${picture.value}" width="100%" height="auto" /><br/><div class=''>
                         <p class='jour-pic-desc-content' th:text="${picture.key}"></p>
                     </div></div>
                 </div>
@@ -88,7 +88,7 @@
         </div>
         <br />
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-sm-12">
                 <table class="sub-title">
                     <tr>
                         <td><h4 style="padding-left: 15px; color: white;">费用说明</h4></td>
@@ -99,7 +99,7 @@
         </div>
         <div class="fee-plan" th:utext="${product.feePlan}"></div>
     </div>
-    <a href="#" class="back-to-top"><img alt="" src="/resources/images/totop.png"/></a>
+    <a href="#" class="back-to-top"><img alt="" src="/resources/images/totop.png" th:src="@{/resources/images/totop.png}" /></a>
     <!-- /container -->
 
     <!-- Bootstrap core JavaScript

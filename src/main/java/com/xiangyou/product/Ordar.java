@@ -33,7 +33,7 @@ public class Ordar implements java.io.Serializable {
     private String contactName;
 
     @Column
-    private String number;
+    private String phone;
 
     @Column
     private int adults;
@@ -47,9 +47,9 @@ public class Ordar implements java.io.Serializable {
     public Ordar() {
     }
 
-    public Ordar(String contactName, String number, int adults, int kids, String comment) {
+    public Ordar(String contactName, String phone, int adults, int kids, String comment) {
         this.contactName = contactName;
-        this.number = number;
+        this.phone = phone;
         this.adults = adults;
         this.kids = kids;
         this.comment = comment;
@@ -71,12 +71,12 @@ public class Ordar implements java.io.Serializable {
         this.contactName = contactName;
     }
 
-    public String getNumber() {
-        return number;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setNumber(String number) {
-        this.number = number;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public int getAdults() {

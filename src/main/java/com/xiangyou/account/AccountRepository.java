@@ -26,30 +26,30 @@ public class AccountRepository {
         return account;
     }
 
-    public Account findByNumberOrEmail(String numberOrEmail) {
-        return findByNumberOrEmail(numberOrEmail, numberOrEmail);
+    public Account findByPhoneOrEmail(String phoneOrEmail) {
+        return findByPhoneOrEmail(phoneOrEmail, phoneOrEmail);
     }
 
-    public Account findByNumberOrEmail(String number, String email) {
+    public Account findByPhoneOrEmail(String phone, String email) {
         try {
-            return entityManager.createNamedQuery(Account.FIND_BY_NUMBER_OR_EMAIL, Account.class)
-                    .setParameter("number", number).setParameter("email", email).getSingleResult();
+            return entityManager.createNamedQuery(Account.FIND_BY_PHONE_OR_EMAIL, Account.class)
+                    .setParameter("phone", phone).setParameter("email", email).getSingleResult();
         } catch (PersistenceException e) {
             return null;
         }
     }
 
-    public Account findByNumber(String number) {
+    public Account findByPhone(String phone) {
         try {
-            return entityManager.createQuery("select a from Account a where a.number = :number", Account.class)
-                    .setParameter("number", number).getSingleResult();
+            return entityManager.createQuery("select a from Account a where a.phone = :phone", Account.class)
+                    .setParameter("phone", phone).getSingleResult();
         } catch (PersistenceException e) {
             return null;
         }
     }
 
-    public boolean isNumberExisted(String number) {
-        return findByNumber(number) != null;
+    public boolean isPhoneExisted(String phone) {
+        return findByPhone(phone) != null;
     }
 
     public Account findByEmail(String email) {

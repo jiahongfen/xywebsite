@@ -14,22 +14,22 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name = "account")
 @NamedQueries({
-        @NamedQuery(name = Account.FIND_BY_NUMBER_OR_EMAIL, query = "select a from Account a where a.number = :number or a.email = :email"),
-        @NamedQuery(name = Account.FIND_BY_NUMBER, query = "select a from Account a where a.number = :number"),
+        @NamedQuery(name = Account.FIND_BY_PHONE_OR_EMAIL, query = "select a from Account a where a.phone = :phone or a.email = :email"),
+        @NamedQuery(name = Account.FIND_BY_PHONE, query = "select a from Account a where a.phone = :phone"),
         @NamedQuery(name = Account.FIND_BY_EMAIL, query = "select a from Account a where a.email = :email") })
 public class Account implements java.io.Serializable {
 
-    public static final String FIND_BY_NUMBER_OR_EMAIL = "Account.findByNumberOrEmail";
-    public static final String FIND_BY_NUMBER = "Account.findByNumber";
+    public static final String FIND_BY_PHONE_OR_EMAIL = "Account.findByPhoneOrEmail";
+    public static final String FIND_BY_PHONE = "Account.findByPhone";
     public static final String FIND_BY_EMAIL = "Account.findByEmail";
 
     @Id
     @GeneratedValue
     private Long id;
 
-    // TODO Valid number check
+    // TODO Valid phone check
     @Column(unique = true)
-    private String number;
+    private String phone;
 
     // TODO Modify Email for user
     @Column(nullable = true)
@@ -43,8 +43,8 @@ public class Account implements java.io.Serializable {
     protected Account() {
     }
 
-    public Account(String number, String email, String password, String role) {
-        this.number = number;
+    public Account(String phone, String email, String password, String role) {
+        this.phone = phone;
         this.email = email;
         this.password = password;
         this.role = role;
@@ -54,12 +54,12 @@ public class Account implements java.io.Serializable {
         return id;
     }
 
-    public String getNumber() {
-        return number;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setNumber(String number) {
-        this.number = number;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getEmail() {

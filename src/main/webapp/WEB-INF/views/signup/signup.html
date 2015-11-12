@@ -9,7 +9,7 @@
 <meta name="author" content="" />
 <link rel="icon" href="../../../favicon.ico" />
 
-<title>Signup</title>
+<title>注册</title>
 
 <!-- Bootstrap core CSS -->
 <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" th:href="@{/resources/css/bootstrap.min.css}" />
@@ -33,5 +33,6 @@
     <script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="../../../resources/js/ie10-viewport-bug-workaround.js" th:src="@{/resources/js/ie10-viewport-bug-workaround.js}"></script>
+    <div th:remove="tag" th:replace="fragments/signupForm :: signupFormScript"></div>
 </body>
 </html>

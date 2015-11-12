@@ -29,7 +29,7 @@
             <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Number</th>
+                    <th>Phone</th>
                     <th>Adults</th>
                     <th>Kids</th>
                     <th>Comment</th>
@@ -38,7 +38,7 @@
             <tbody>
                 <tr th:each="order : ${orderList}">
                     <td th:text="${order.contactName}"></td>
-                    <td th:text="${order.number}"></td>
+                    <td th:text="${order.phone}"></td>
                     <td th:text="${order.adults}"></td>
                     <td th:text="${order.kids}"></td>
                     <td th:text="${order.comment}"></td>

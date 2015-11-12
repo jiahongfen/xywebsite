@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}"/>
+</head>
+<body>
+<div class="form-narrow form-horizontal" th:fragment="signinForm">
+    <th:block th:if="${param.error != null}" th:switch="${param.error[0]}">
+        <div th:case="'usernameNotFound'" th:remove="tag">
+            <div th:replace="fragments/alert :: alert (type='danger', message=#{error.phone.notFound})">Alert</div>
+        </div>
+        <div th:case="'passwordNotMatch'" th:remove="tag">
+            <div th:replace="fragments/alert :: alert (type='danger', message=#{error.password.notMatch})">Alert</div>
+        </div>
+        <div th:case="'phoneCodeNotFound'" th:remove="tag">
+            <div th:replace="fragments/alert :: alert (type='danger', message=#{error.phoneCode.notFound})">Alert</div>
+        </div>
+        <div th:case="'phoneCodeExpired'" th:remove="tag">
+            <div th:replace="fragments/alert :: alert (type='danger', message=#{error.phoneCode.expired})">Alert</div>
+        </div>
+        <div th:case="'phoneCodeNotMatch'" th:remove="tag">
+            <div th:replace="fragments/alert :: alert (type='danger', message=#{error.phoneCode.notMatch})">Alert</div>
+        </div>
+        <div th:case="*" th:remove="tag">
+            <div th:replace="fragments/alert :: alert (type='danger', message='Sign in error. Please try again.')">Alert</div>
+        </div>
+    </th:block>
+    <!-- Nav tabs -->
+    <ul id="signinFormTabs" class="nav nav-tabs" role="tablist" style="margin-bottom: 20px">
+        <li role="presentation" class="active"><a href="#signinForm" aria-controls="signinForm" role="tab" data-toggle="tab">手机号登录</a></li>
+        <li role="presentation"><a id="phoneCodeSigninLink" href="#phoneCodeSigninForm" aria-controls="phoneCodeSigninForm" role="tab" data-toggle="tab">短信验证码登录</a></li>
+    </ul>
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <form id="signinForm" role="tabpanel" class="tab-pane fade in active" action="#" method="post" th:action="@{/authenticate}">
+            <fieldset>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <input type="text" class="form-control" placeholder="手机号" name="username" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <input type="password" class="form-control" placeholder="密码" name="password" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <div class="checkbox">
+                            <label> <input type="checkbox" name="_spring_security_remember_me" />记住我</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <button type="submit" class="btn btn-default">登录</button>
+                    </div>
+                </div>
+            </fieldset>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <p>
+                        <a onclick="gotoPhoneCodeSignin()" style="cursor: pointer">忘记密码</a> 新人? <a href="signup" th:href="@{/signup}">注册</a>
+                    </p>
+                </div>
+            </div>
+        </form>
+        <form id="phoneCodeSigninForm" role="tabpanel" class="tab-pane fade" action="#" method="post" th:action="@{/authenticate}">
+            <fieldset>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <input id="phone" name="username" type="text" class="form-control" placeholder="手机号" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <input id="sendCodeBtn" type="button" class="btn btn-default" onclick="sendCode('2');" style="font-size: small; width: 49%; float: right;" value="获取短信验证码" />
+                        <input id="phoneCode" name="password" class="form-control" placeholder="短信验证码" style="width: 49%; float: left;" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <button type="submit" class="btn btn-default">登录</button>
+                        <input name="phoneCodeSignin" value="true" type="hidden" />
+                    </div>
+                </div>
+            </fieldset>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <p>
+                        新人? <a href="signup" th:href="@{/signup}">注册</a>
+                    </p>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div th:remove="tag" th:fragment="signinFormScript">
+    <script src="../../../resources/js/core.js" th:src="@{/resources/js/core.js}"></script>
+    <script src="../../../resources/js/sendCode.js" th:src="@{/resources/js/sendCode.js}"></script>
+    <script src="../../../resources/js/jquery.validate.js" th:src="@{/resources/js/jquery.validate.js}"></script>
+    <script src="../../../resources/js/jquery.form.js" th:src="@{/resources/js/jquery.form.js}"></script>
+    <script src="../../../resources/js/localization/messages_en.js" th:src="@{'/resources/js/localization/messages_' + ${#locale.language} + '.js'}"></script>
+    <script type="text/javascript" th:inline="javascript">
+    // <![CDATA[
+    if(window.location.hash) {
+        var anchor = window.location.hash.substring(1); //Puts hash in variable, and removes the # character
+        if (anchor == 'forgetPassword' || anchor == 'phoneCodeSignin') {
+            $('#phoneCodeSigninLink').trigger('click');
+        }
+    }
+    sendCodeUrl = [[@{/sendCode}]];
+    function gotoPhoneCodeSignin() {
+        $('#phoneCodeSigninLink').trigger('click');
+    }
+
+    var signinValidator;
+    var phoneCodeSigninValidator;
+    $().ready(function() {
+        signinValidator = $("#signinForm").validate({
+            rules: {
+                username: {
+                    required: true,
+                    number: true,
+                    minlength: 11
+                },
+                password: {
+                    required: true
+                }
+            },
+            messages: {
+                username: {
+                    required: "请输入手机号码",
+                    number: "只能输入数字",
+                    minlength: "手机号码为11位"
+                },
+                password: {
+                    required: "请输入密码"
+                }
+            },
+            showErrors: function(errorMap, errorList) {
+                this.defaultShowErrors();
+            }
+        });
+        phoneCodeSigninValidator = $("#phoneCodeSigninForm").validate({
+            rules: {
+                username: {
+                    required: true,
+                    number: true,
+                    minlength: 11
+                },
+                password: {
+                    required: true,
+                    rangelength: [4, 4]
+                }
+            },
+            messages: {
+                username: {
+                    required: "请输入手机号码",
+                    number: "只能输入数字",
+                    minlength: "手机号码为11位"
+                },
+                password: {
+                    required: "请输入短信验证码",
+                    rangelength: "验证码为4位"
+                }
+            },
+            showErrors: function(errorMap, errorList) {
+                this.defaultShowErrors();
+            }
+        });
+
+        sentTime = [[${#httpSession.getAttribute('signinCodeTs')}]];
+        waitTime = 0;
+        if (sentTime != null) {
+            currentTime = [[${#dates.createNow().getTime()}]];
+            if ((currentTime - sentTime) < (60 * 1000)) {
+                waitTime = Math.floor(60 - (currentTime - sentTime) / 1000);
+            }
+        }
+        if (waitTime > 0) {
+            checkTime(waitTime);
+        }
+    });
+    // ]]>
+    </script>
+</div>
+</body>
+</html>
