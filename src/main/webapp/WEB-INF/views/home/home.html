@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<meta name="description" content="" />
+<meta name="author" content="" />
+<link rel="icon" href="../../../favicon.ico" />
+
+<title th:text="#{home.title}">Home</title>
+
+<!-- Bootstrap core CSS -->
+<link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" th:href="@{/resources/css/bootstrap.min.css}" />
+
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<link href="../../../resources/css/ie10-viewport-bug-workaround.css" rel="stylesheet" th:href="@{/resources/css/ie10-viewport-bug-workaround.css}" />
+
+<!-- Custom styles for this project -->
+<link href="../../../resources/css/core.css" rel="stylesheet" th:href="@{/resources/css/core.css}" />
+
+<link href="../../../resources/css/totop.css" rel="stylesheet" th:href="@{/resources/css/totop.css}" />
+<style type="text/css">
+.content-top {
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
+
+.highlights {
+    background-color: white;
+    border-radius: 5px;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 15px 10px 10px 10px;
+}
+
+.top-grid img {
+    margin: 0 auto 1em;
+}
+
+.top-grid h4 {
+    color: #323232;
+    text-align: center;
+    display: none;
+}
+
+.top-grid p {
+    color: #8e8e8e;
+    font-size: 1.1em;
+    line-height: 1.8em;
+    margin-bottom: 0;
+}
+
+.strike {
+    display: block;
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+    padding-bottom: 10px;
+    font-size: x-large;
+}
+
+.strike>span {
+    position: relative;
+    display: inline-block;
+}
+
+.strike>span:before, .strike>span:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 9999px;
+    height: 1px;
+    background: #EEE;
+}
+
+.strike>span:before {
+    right: 100%;
+    margin-right: 15px;
+}
+
+.strike>span:after {
+    left: 100%;
+    margin-left: 15px;
+}
+
+.card {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.card .card-banner {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    min-height: 180px;
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding-top: 20px;
+}
+
+.card .card-desc {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-color: #DDD;
+    background-color: #FFF;
+    border: 1px solid transparent;
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
+    padding: 10px;
+}
+
+.card .date {
+    background-color: #00A25A;
+    border-top-right-radius: 5px;
+    color: white;
+    padding: 5px;
+}
+
+.card .fee {
+    background-color: #484646;
+    border-bottom-right-radius: 5px;
+    color: white;
+    padding: 5px;
+}
+
+.vertical-middle {
+  vertical-align: middle;
+}
+</style>
+</head>
+
+<body>
+
+    <div th:replace="fragments/header :: header">Header</div>
+    <div class="container">
+        <div class="jumbotron" onclick='changeBanner()' style="background-image: url('./resources/banners/banner001.jpg'); background-size: 100% auto; background-repeat: no-repeat; background-position: center;">
+            <h2 align="right" style="color: white;">奥地利户外度假</h2>
+            <p align="right" style="color: white;">享受自然风光，领略滑雪激情</p>
+        </div>
+
+        <hr class="featurette-divider" />
+
+        <div class="content-top">
+            <div class="row highlights">
+                <div class="col-md-4 top-grid">
+                    <img class="img-responsive" th:src="@{/resources/images/highlight_skiing.png}" title="滑雪" />
+                    <h4>滑雪</h4>
+                    <p>滑雪是运动员把滑雪板装在靴底上在雪地上进行速度、跳跃和滑降的竞赛运动。滑雪板用木材、金属材料和塑料混合制成。高山滑雪由滑降，小回转和大回转（障碍滑雪）组成。</p>
+                </div>
+                <div class="col-md-4 top-grid">
+                    <img class="img-responsive" th:src="@{/resources/images/highlight_hiking.png}" title="徒步" />
+                    <h4>徒步</h4>
+                    <p>徒步（tú bù）指步行，也是平民的代称。徒步，根据穿越区域的不同，可以分为城郊、乡村、山地、江河等很多分类徒步。但是徒步在大多数情况下是在城郊和乡村间进行。</p>
+                </div>
+                <div class="col-md-4 top-grid">
+                    <img class="img-responsive" src="./resources/images/highlight_riding.png" title="骑行" />
+                    <h4>骑行</h4>
+                    <p>骑行是一种健康自然的运动旅游方式，能充分享受旅行过程之美的运动。一辆自行车配上一个背包，穿上骑行服，驶过颠簸的路途，不断而来的困难当中体验挑战，在遥远的他乡体验风情，在旅途的终点体验成功。</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="strike">
+            <span>热门线路</span>
+        </div>
+
+        <div class="row">
+            <div th:each="product : ${productList}" class="col-md-6 card" th:onclick="${product.date == null} ? '' : 'gotoDetails(\'' + ${product.id} + '\');'"
+                th:style="${product.date == null} ? '' : 'cursor: pointer;'">
+                <div class="card-banner" th:style="${product.banner}">
+                    <table>
+                        <tr>
+                            <td class="date" th:text="${product.date == null} ? 尽请期待 : ${product.date}"></td>
+                        </tr>
+                        <tr th:if="${product.date != null}">
+                            <td class="fee" th:text="${product.fee} + '/人起'">--</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="card-desc" th:text="${product.intro}"></div>
+            </div>
+        </div>
+
+        <hr class="featurette-divider" />
+
+        <div th:if="${#authorization.expression('!isAuthenticated()')}">
+            <div th:replace="fragments/signupForm :: signupForm">Signup form</div>
+        </div>
+
+        <hr class="featurette-divider" />
+
+        <div th:replace="fragments/footer :: footer">&copy; 2013 The Static Templates</div>
+    </div>
+    <a href="#" class="back-to-top"><img alt="" src="/resources/images/totop.png"/></a>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../../../resources/js/jquery.min.js" th:src="@{/resources/js/jquery.min.js}"></script>
+    <script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../../resources/js/ie10-viewport-bug-workaround.js" th:src="@{/resources/js/ie10-viewport-bug-workaround.js}"></script>
+
+    <script src="../../../resources/js/totop.js" th:src="@{/resources/js/totop.js}"></script>
+    <script type="text/javascript">
+        var bannerId = 1;
+        function gotoDetails(id) {
+            window.location.href = "./product/details?id=" + id;
+        }
+        function changeBanner() {
+            if (bannerId >= 16) {
+                bannerId = 1;
+            } else {
+                bannerId++;
+            }
+            var bannerName = "banner";
+            if (bannerId > 9) {
+                bannerName += '0' + bannerId;
+            } else {
+                bannerName += '00' + bannerId;
+            }
+            bannerName += '.jpg';
+            $('.jumbotron').css("background-image", 'url(\'./resources/banners/' + bannerName + '\')');
+        }
+
+        jQuery(document).ready(function() {
+            $(window).on('resize', function(){
+                if ($(window).width() >= 768) {
+                    $('.jumbotron').css("padding-top", "75px");
+                    $('.jumbotron').css("padding-bottom", "75px");
+                } else {
+                    $('.jumbotron').css("padding-top", "45px");
+                    $('.jumbotron').css("padding-bottom", "45px");
+                }
+                if ((1280 / 600) >= ($('.jumbotron').outerWidth() / $('.jumbotron').outerHeight())) {
+                    $('.jumbotron').css("background-size", "auto 100%");
+                } else {
+                    $('.jumbotron').css("background-size", "100% auto");
+                }
+                if ((640 / 300) >= ($('.card-banner').outerWidth() / $('.card-banner').outerHeight())) {
+                    $('.card-banner').css("background-size", "auto 100%");
+                } else {
+                    $('.card-banner').css("background-size", "100% auto");
+                }
+            }).trigger('resize');
+        });
+    </script>
+</body>
+</html>

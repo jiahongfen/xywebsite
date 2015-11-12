@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<meta name="description" content="" />
+<meta name="author" content="" />
+<link rel="icon" href="../../../favicon.ico" />
+
+<title>Order</title>
+
+<!-- Bootstrap core CSS -->
+<link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" th:href="@{/resources/css/bootstrap.min.css}" />
+
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<link href="../../../resources/css/ie10-viewport-bug-workaround.css" rel="stylesheet" th:href="@{/resources/css/ie10-viewport-bug-workaround.css}" />
+
+<!-- Custom styles for this project -->
+<link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />
+
+<style type="text/css">
+    .form-group-padding {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+</style>
+</head>
+
+<body>
+
+    <div th:replace="fragments/header :: header">Header</div>
+    <form class="form-narrow form-horizontal" action="#" method="post" th:action="@{/product/doOrder}" th:object="${orderForm}">
+        <fieldset>
+            <legend>填写出游信息</legend>
+            <div class="form-group form-group-padding">
+                <div th:classappend="${#fields.hasErrors('adults')}? 'has-error'" style="float: left; width: 49%;">
+                    <input id="adults" class="form-control" type="number" min="1" max="10" placeholder="成人" th:field="*{adults}" style="z-index: 9" />
+                </div>
+                <div style="float: right; width: 49%;">
+                    <input id="kids" class="form-control" type="number" min="0" max="10" placeholder="儿童" th:field="*{kids}" style="z-index: 9" />
+                </div>
+                <div th:classappend="${#fields.hasErrors('adults')}? 'has-error'" style="clear: both;">
+                    <span class="help-block" th:if="${#fields.hasErrors('adults')}" th:errors="*{adults}">Incorrect adults number</span>
+                </div>
+            </div>
+            <div class="form-group form-group-padding" th:classappend="${#fields.hasErrors('contactName')}? 'has-error'">
+                <div>
+                    <input id="contactName" class="form-control" value="" type="text" placeholder="联系人" th:field="*{contactName}" />
+                    <span class="help-block" th:if="${#fields.hasErrors('contactName')}" th:errors="*{contactName}">Incorrect contact name</span>
+                </div>
+            </div>
+            <div class="form-group form-group-padding" th:classappend="${#fields.hasErrors('number')}? 'has-error'">
+                <div>
+                    <input id="number" class="form-control" value="" type="text" placeholder="联系电话" th:field="*{number}" />
+                    <span class="help-block" th:if="${#fields.hasErrors('number')}" th:errors="*{number}">Incorrect number</span>
+                </div>
+            </div>
+            <div class="form-group form-group-padding">
+                <div>
+                    <textarea id="comment" class="form-control" placeholder="备注" th:field="*{comment}"></textarea>
+                </div>
+            </div>
+            <div class="form-group form-group-padding">
+                <div align="center">
+                    <button type="submit" class="btn btn-default">提交</button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../../../resources/js/jquery.min.js" th:src="@{/resources/js/jquery.min.js}"></script>
+    <script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
+    <script src="../../../resources/js/bootstrap-number-input.js" th:src="@{/resources/js/bootstrap-number-input.js}"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../../resources/js/ie10-viewport-bug-workaround.js" th:src="@{/resources/js/ie10-viewport-bug-workaround.js}"></script>
+    <script type="text/javascript">
+    $('#adults').bootstrapNumber();
+    $('#kids').bootstrapNumber();
+    </script>
+</body>
+</html>

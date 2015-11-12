@@ -1,0 +1,15 @@
+.back-to-top {
+    position: fixed;
+    bottom: 2em;
+    right: 0px;
+    text-decoration: none;
+    font-size: 12px;
+    display: none;
+    z-index: 99;
+    border-radius: 5px;
+}
+
+.back-to-top:hover {
+    background-color: rgba(150, 150, 150, 0.20);
+    border-radius: 5px;
+}

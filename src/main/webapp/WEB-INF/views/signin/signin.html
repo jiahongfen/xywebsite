@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<meta name="description" content="" />
+<meta name="author" content="" />
+<link rel="icon" href="../../../favicon.ico" />
+
+<title>Signin</title>
+
+<!-- Bootstrap core CSS -->
+<link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" th:href="@{/resources/css/bootstrap.min.css}" />
+
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<link href="../../../resources/css/ie10-viewport-bug-workaround.css" rel="stylesheet" th:href="@{/resources/css/ie10-viewport-bug-workaround.css}" />
+
+<!-- Custom styles for this project -->
+<link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />
+</head>
+
+<body>
+
+    <div th:replace="fragments/header :: header">Header</div>
+    <form class="form-narrow form-horizontal" action="#" method="post" th:action="@{/authenticate}">
+        <th:block th:if="${param.error != null}">
+            <div th:replace="fragments/alert :: alert (type='danger', message='Sign in error. Please try again.')">Alert</div>
+        </th:block>
+        <fieldset>
+            <legend>请登录</legend>
+            <div class="form-group">
+                <label for="inputEmail" class="col-lg-3 control-label">用户名</label>
+                <div class="col-lg-9">
+                    <input type="text" class="form-control" id="inputEmail" placeholder="手机号或者Email" name="username" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputPassword" class="col-lg-3 control-label">密码</label>
+                <div class="col-lg-9">
+                    <input type="password" class="form-control" id="inputPassword" placeholder="密码"
+                        name="password" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-offset-3 col-lg-9">
+                    <div class="checkbox">
+                        <label> <input type="checkbox" name="_spring_security_remember_me" />记住我</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-offset-3 col-lg-9">
+                    <button type="submit" class="btn btn-default">登录</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-offset-3 col-lg-9">
+                    <p>
+                        新人? <a href="signup" th:href="@{/signup}">注册</a>
+                    </p>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../../../resources/js/jquery.min.js" th:src="@{/resources/js/jquery.min.js}"></script>
+    <script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../../resources/js/ie10-viewport-bug-workaround.js" th:src="@{/resources/js/ie10-viewport-bug-workaround.js}"></script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+.swiper-container {
+    width: 100%;
+    border-radius: 5px;
+}
+
+.swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+    /* Center slide text vertically */
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+
+.slide {
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    background-position: center top;
+}
+
+.sub-title {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    width: 100%;
+    background-color: #0175AD;
+}
+
+.jour-plan {
+    background-color: white;
+    background-image: url('../images/jour-dash-line.png');
+    background-repeat: repeat-y;
+    padding: 30px;
+    padding-left: 60px;
+    background-position: 30px top;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.fee-plan {
+    background-color: white;
+    padding: 30px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.day-icon {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    left: -26px;
+    top: 10px;
+    background-image: url("../images/jour-icons.png");
+    background-position: -33px -26px;
+}
+
+.order-button {
+    padding: 10px 20px 10px 20px;
+    background-color: #1DB5FF;
+    border-color: #1DB5FF;
+    border-radius: 0;
+    color: white;
+}
+
+.order-button:hover {
+    color: white;
+    background-color: #0DA5EF;
+    border-color: #0DA5EF;
+}
+
+.back-to-top {
+    position: fixed;
+    bottom: 2em;
+    right: 0px;
+    text-decoration: none;
+    font-size: 12px;
+    display: none;
+    z-index: 9;
+    border-radius: 5px;
+}
+
+.back-to-top:hover {
+    background-color: rgba(150, 150, 150, 0.20);
+    border-radius: 5px;
+}
+
+.jour-pic-wrapper {
+}
+
+.jour-pic-desc {
+    position: absolute; /* absolute position (so we can position it where we want)*/
+    bottom: 0px; /* position will be on bottom */
+    left: 0px;
+    width: 100%;
+    /* styling bellow */
+    background-color: rgba(0, 0, 0, 0.6);
+    font-family: 'tahoma';
+    font-size: 15px;
+    color: white;
+}
+
+.jour-pic-desc-content {
+    padding: 10px;
+    margin: 0px;
+    text-align: center;
+}

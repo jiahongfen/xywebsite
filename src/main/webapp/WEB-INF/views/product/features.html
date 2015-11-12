@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <title th:text="${product.name}"></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
+
+    <!-- Link Swiper's CSS -->
+    <link href="../../../resources/css/swiper.min.css" rel="stylesheet" th:href="@{/resources/css/swiper.min.css}" />
+
+    <link href="../../../resources/css/jquery.mobile-1.4.5.min.css" rel="stylesheet" th:href="@{/resources/css/jquery.mobile-1.4.5.min.css}" />
+
+    <link href="../../../resources/css/features.css" rel="stylesheet" th:href="@{/resources/css/features.css}" />
+</head>
+<body>
+    <!-- Swiper -->
+    <div class="swiper-container">
+        <div class="swiper-wrapper" th:each="feature : ${product.features}" >
+            <div class="swiper-slide slide" th:style="'background-image: url(' + ${feature.image} + ');'"></div>
+        </div>
+        <!-- Add Pagination -->
+        <div class="swiper-pagination"></div>
+    </div>
+    <a href="#" class="back-to-top ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-arrow-u ui-btn-icon-notext"></a>
+
+    <script src="../../../resources/js/jquery.min.js" th:src="@{/resources/js/jquery.min.js}"></script>
+    <!-- Swiper JS -->
+    <script src="../../../resources/js/swiper.min.js" th:src="@{/resources/js/swiper.min.js}"></script>
+
+    <!-- Initialize Swiper -->
+    <script>
+    var imageWidth = 1280;
+    var imageHeight = 780;
+    jQuery(document).ready(function() {
+        var duration = 500;
+
+        var swiper = new Swiper('.swiper-container', {
+            pagination: '.swiper-pagination',
+            direction: 'vertical',
+            slidesPerView: 1,
+            paginationClickable: true,
+            spaceBetween: 0,
+            mousewheelControl: true
+        });
+
+        jQuery('.back-to-top').click(function(event) {
+            event.preventDefault();
+            swiper.slideTo(0);
+            return false;
+        })
+
+        swiper.on('slideChangeStart', function () {
+            if (swiper.activeIndex > 0) {
+                jQuery('.back-to-top').fadeIn(duration);
+            } else {
+                jQuery('.back-to-top').fadeOut(duration);
+            }
+        });
+        $(window).on('resize', function(){
+            updateSlide();
+        }).trigger('resize');
+    });
+    function updateSlide() {
+        if (($(window).width() / $(window).height()) >= (imageWidth / imageHeight)) {
+            $(".slide").css("background-size", "100% auto");
+        } else {
+            $(".slide").css("background-size", "auto 100%");
+        }
+    }
+    </script>
+</body>
+</html>
