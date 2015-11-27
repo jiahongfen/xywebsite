@@ -30,6 +30,9 @@ public class Ordar implements java.io.Serializable {
     private Long id;
 
     @Column
+    private String username;
+
+    @Column
     private String contactName;
 
     @Column
@@ -44,15 +47,19 @@ public class Ordar implements java.io.Serializable {
     @Column
     private String comment;
 
+    @Column
+    private String tourists;
+
     public Ordar() {
     }
 
-    public Ordar(String contactName, String phone, int adults, int kids, String comment) {
+    public Ordar(String contactName, String phone, int adults, int kids, String comment, String tourists) {
         this.contactName = contactName;
         this.phone = phone;
         this.adults = adults;
         this.kids = kids;
         this.comment = comment;
+        this.tourists = tourists;
     }
 
     public Long getId() {
@@ -101,5 +108,21 @@ public class Ordar implements java.io.Serializable {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public String getTourists() {
+        return tourists;
+    }
+
+    public void setTourists(String tourists) {
+        this.tourists = tourists;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

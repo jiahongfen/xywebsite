@@ -55,7 +55,7 @@
                     <table>
                         <tr>
                             <td><span style="color: #1DB5FF;">¥ </span><span style="font-size: xx-large; color: #1DB5FF; font-weight: bold;" th:text="${product.fee}"></span><span style="color: #999; padding-right: 10px"> 起/人</span></td>
-                            <td><button class="btn order-button" style="font-size: medium" onclick="order('1')">立即预定</button></td>
+                            <td><button class="btn order-button" style="font-size: medium" th:onclick="'order(\'' + ${product.id} + '\')'">立即预定</button></td>
                         </tr>
                     </table>
                 </div>

@@ -2,9 +2,14 @@ package com.xiangyou.product;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.commons.lang.math.NumberUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -14,27 +19,59 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.xiangyou.account.Tourist;
+
 @Controller
 public class OrderController {
+    static final Logger logger = LoggerFactory.getLogger(OrderController.class);
 
     private static final String ORDER_VIEW_NAME = "product/order";
     @Autowired
     private OrderRepository orderRepository;
+    @Autowired
+    private ProductRepository productRepository;
 
     @RequestMapping(value = "/product/order", method = RequestMethod.GET)
-    public String order(@RequestParam(value = "id", required = false, defaultValue = "0") int id, Model model) {
-        model.addAttribute(new OrderForm());
+    public String order(@RequestParam(value = "id", required = false) String id, Model model) {
+        if (id == null) {
+            return "redirect:/";
+        }
+        Product product = productRepository.getProduct(id);
+        if (product == null) {
+            return "redirect:/";
+        }
+        OrderForm orderForm = new OrderForm();
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        orderForm.setPhone(username);
+        model.addAttribute(orderForm);
         return "/product/order";
     }
 
     @RequestMapping(value = "/product/doOrder", method = RequestMethod.POST)
-    public String doOrder(@Valid @ModelAttribute OrderForm orderForm, Errors errors, RedirectAttributes ra) {
+    public String doOrder(@Valid @ModelAttribute OrderForm orderForm, Errors errors, RedirectAttributes ra,
+            HttpServletRequest request, Model model) throws JsonProcessingException {
         if (errors.hasErrors()) {
             System.out.println("Has error " + errors);
             return ORDER_VIEW_NAME;
         }
-        Ordar order = orderRepository.save(orderForm.createOrder());
-        return "redirect:/product/orderSuccess?orderId=" + order.getId();
+        getTourists(orderForm, request);
+        Ordar order = orderForm.createOrder();
+        order.setUsername((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        order = orderRepository.save(order);
+        model.addAttribute("order", order);
+        return "/product/orderSuccess";
+    }
+
+    private void getTourists(OrderForm orderForm, HttpServletRequest request) {
+        int touristsCount = NumberUtils.toInt(orderForm.getAdults()) + NumberUtils.toInt(orderForm.getKids());
+        for (int i = 0; i < touristsCount; i++) {
+            orderForm.getTourists().add(getTourist(request, i));
+        }
+    }
+
+    private Tourist getTourist(HttpServletRequest request, int i) {
+        return Tourist.newPassportTourist(request.getParameter("name" + i), request.getParameter("number" + i));
     }
 
     @RequestMapping(value = "/product/orderSuccess", method = RequestMethod.GET)

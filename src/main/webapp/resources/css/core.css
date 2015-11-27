@@ -43,6 +43,6 @@ form label.error {
     text-align:center;
 }
 
-.gone {
+.hide {
     display: none;
 }

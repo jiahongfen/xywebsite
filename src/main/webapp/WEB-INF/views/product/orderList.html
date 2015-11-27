@@ -28,20 +28,24 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Phone</th>
+                    <th>Username</th>
+                    <th>Contact name</th>
+                    <th>Contact phone</th>
                     <th>Adults</th>
                     <th>Kids</th>
                     <th>Comment</th>
+                    <th>Tourists</th>
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="order : ${orderList}">
+                    <td th:text="${order.username}"></td>
                     <td th:text="${order.contactName}"></td>
                     <td th:text="${order.phone}"></td>
                     <td th:text="${order.adults}"></td>
                     <td th:text="${order.kids}"></td>
                     <td th:text="${order.comment}"></td>
+                    <td th:text="${order.tourists}"></td>
                 </tr>
             </tbody>
         </table>

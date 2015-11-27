@@ -79,7 +79,7 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.eraseCredentials(false);
+        auth.eraseCredentials(true);
         auth.authenticationProvider(phoneCodeAuthenticationProvider());
         auth.authenticationProvider(userAuthenticationProvider());
     }
@@ -224,7 +224,7 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/", "/favicon.ico", "/resources/**", "/signin", "/signup", "/product/details",
-                        "/product/order", "/product/doOrder", "/product/orderSuccess", "/product/orderList",
+                        /*"/product/order", "/product/doOrder", "/product/orderSuccess", */"/product/orderList",
                         "/product/features", "/sendCode")
                 .permitAll().anyRequest().authenticated().and().formLogin().loginPage("/signin").permitAll()
                 .failureUrl(DEFAULT_FAILURE_URL).loginProcessingUrl("/authenticate")

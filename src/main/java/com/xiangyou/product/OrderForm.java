@@ -1,6 +1,13 @@
 package com.xiangyou.product;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.hibernate.validator.constraints.NotBlank;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xiangyou.account.Tourist;
 
 public class OrderForm {
 
@@ -19,8 +26,13 @@ public class OrderForm {
 
     private String comment;
 
-    public Ordar createOrder() {
-        return new Ordar(getContactName(), getPhone(), toInt(getAdults()), toInt(getKids()), getComment());
+    private String contract;
+
+    private List<Tourist> tourists = new ArrayList<Tourist>();
+
+    public Ordar createOrder() throws JsonProcessingException {
+        return new Ordar(getContactName(), getPhone(), toInt(getAdults()), toInt(getKids()), getComment(),
+                getTouristsInfo());
     }
 
     public int toInt(String s) {
@@ -71,5 +83,25 @@ public class OrderForm {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public String getContract() {
+        return contract;
+    }
+
+    public void setContract(String contract) {
+        this.contract = contract;
+    }
+
+    public List<Tourist> getTourists() {
+        return tourists;
+    }
+
+    public void setTourists(List<Tourist> tourists) {
+        this.tourists = tourists;
+    }
+
+    public String getTouristsInfo() throws JsonProcessingException {
+        return new ObjectMapper().writeValueAsString(getTourists());
     }
 }

@@ -9,10 +9,12 @@
 <meta name="author" content="" />
 <link rel="icon" href="../../../favicon.ico" />
 
-<title>Order</title>
+<title>预定</title>
 
 <!-- Bootstrap core CSS -->
 <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" th:href="@{/resources/css/bootstrap.min.css}" />
+
+<link href="../../../resources/css/bootstrap-nav-wizard.css" rel="stylesheet" th:href="@{/resources/css/bootstrap-nav-wizard.css}" />
 
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <link href="../../../resources/css/ie10-viewport-bug-workaround.css" rel="stylesheet" th:href="@{/resources/css/ie10-viewport-bug-workaround.css}" />
@@ -22,8 +24,19 @@
 
 <style type="text/css">
     .form-group-padding {
-        padding-left: 30px;
-        padding-right: 30px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    .tab-content .tab-pane {
+        background: white;
+        border: 1px solid #E5E5E5;
+        border-top: 0px;
+        border-radius: 0 0 5px 5px;
+        box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+        padding: 10px;
+    }
+    .padding-bottom {
+        padding-bottom: 10px;
     }
 </style>
 </head>
@@ -31,44 +44,153 @@
 <body>
 
     <div th:replace="fragments/header :: header">Header</div>
-    <form class="form-narrow form-horizontal" action="#" method="post" th:action="@{/product/doOrder}" th:object="${orderForm}">
-        <fieldset>
-            <legend>填写出游信息</legend>
-            <div class="form-group form-group-padding">
-                <div th:classappend="${#fields.hasErrors('adults')}? 'has-error'" style="float: left; width: 49%;">
-                    <input id="adults" class="form-control" type="number" min="1" max="10" placeholder="成人" th:field="*{adults}" style="z-index: 9" />
+    <div class="container">
+    <!-- Nav tabs -->
+    <ul id="orderTabs" class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active">
+            <a class="hide" href="#baseInfo" aria-controls="baseInfo" role="tab" data-toggle="tab">提交订单</a>
+            <a>提交订单</a>
+        </li>
+        <li role="presentation">
+            <a class="hide" href="#detailsInfo" aria-controls="detailsInfo" role="tab" data-toggle="tab">完善资料</a>
+            <a>完善资料</a>
+        </li>
+        <li role="presentation">
+            <a class="hide" href="#contractInfo" aria-controls="contractInfo" role="tab" data-toggle="tab">签订合同</a>
+            <a>签订合同</a>
+        </li>
+        <li role="presentation">
+            <a class="hide" href="#orderSummary" aria-controls="orderSummary" role="tab" data-toggle="tab">订单核对</a>
+            <a>订单核对</a>
+        </li>
+    </ul>
+    <!-- Tab panes -->
+    <form id="orderForm" class="tab-content" action="#" method="post" th:action="@{/product/doOrder}" th:object="${orderForm}">
+    <div id="baseInfo" role="tabpanel" class="tab-pane fade in active">
+        <div class="form-narrow form-horizontal" style="border-radius: 0; border: 0; box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.05);">
+            <fieldset>
+                <legend>填写出游信息</legend>
+                <div class="form-group form-group-padding">
+                    <div th:classappend="${#fields.hasErrors('adults')}? 'has-error'" style="float: left; width: 49%;">
+                        <input id="adults" class="form-control" type="number" min="1" max="10" placeholder="成人" th:field="*{adults}" style="z-index: 9" data-error="#errAdults" />
+                    </div>
+                    <div style="float: right; width: 49%;">
+                        <input id="kids" class="form-control" type="number" min="0" max="10" placeholder="儿童" th:field="*{kids}" style="z-index: 9" />
+                    </div>
+                    <div id="errAdults"></div>
+                    <div th:classappend="${#fields.hasErrors('adults')}? 'has-error'" style="clear: both;">
+                        <span class="help-block" th:if="${#fields.hasErrors('adults')}" th:errors="*{adults}">Incorrect adults number</span>
+                    </div>
                 </div>
-                <div style="float: right; width: 49%;">
-                    <input id="kids" class="form-control" type="number" min="0" max="10" placeholder="儿童" th:field="*{kids}" style="z-index: 9" />
+                <div class="form-group form-group-padding" th:classappend="${#fields.hasErrors('contactName')}? 'has-error'">
+                    <div>
+                        <input id="contactName" class="form-control" value="" type="text" placeholder="联系人" th:field="*{contactName}" />
+                        <span class="help-block" th:if="${#fields.hasErrors('contactName')}" th:errors="*{contactName}">Incorrect contact name</span>
+                    </div>
                 </div>
-                <div th:classappend="${#fields.hasErrors('adults')}? 'has-error'" style="clear: both;">
-                    <span class="help-block" th:if="${#fields.hasErrors('adults')}" th:errors="*{adults}">Incorrect adults number</span>
+                <div class="form-group form-group-padding" th:classappend="${#fields.hasErrors('phone')}? 'has-error'">
+                    <div>
+                        <input id="phone" class="form-control" value="" type="text" placeholder="联系电话" th:field="*{phone}" />
+                        <span class="help-block" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Incorrect phone</span>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group form-group-padding" th:classappend="${#fields.hasErrors('contactName')}? 'has-error'">
-                <div>
-                    <input id="contactName" class="form-control" value="" type="text" placeholder="联系人" th:field="*{contactName}" />
-                    <span class="help-block" th:if="${#fields.hasErrors('contactName')}" th:errors="*{contactName}">Incorrect contact name</span>
+                <div class="form-group form-group-padding">
+                    <div>
+                        <textarea id="comment" class="form-control" placeholder="备注" th:field="*{comment}"></textarea>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group form-group-padding" th:classappend="${#fields.hasErrors('phone')}? 'has-error'">
-                <div>
-                    <input id="phone" class="form-control" value="" type="text" placeholder="联系电话" th:field="*{phone}" />
-                    <span class="help-block" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Incorrect phone</span>
+                <div class="form-group form-group-padding">
+                    <div align="center">
+                        <button type="button" class="btn btn-default" onclick="gotoDetailsInfo()">确定</button>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group form-group-padding">
-                <div>
-                    <textarea id="comment" class="form-control" placeholder="备注" th:field="*{comment}"></textarea>
+            </fieldset>
+        </div>
+    </div>
+    <div id="detailsInfo" role="tabpanel" class="tab-pane fade">
+        <div class="form-narrow form-horizontal" style="border-radius: 0; border: 0; box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.05);">
+            <fieldset>
+                <legend>完善信息</legend>
+                <div id="tourists">
+                <div class="tourist">
+                    <div class="row padding-bottom">
+                        <label for="name0" class="col-sm-3 control-label">姓名</label>
+                        <div class="col-sm-9"><input id="name0" type="text" class="form-control" placeholder="姓名" name="name0" /></div>
+                    </div>
+                    <div class="row">
+                        <label for="number0" class="col-sm-3 control-label">护照</label>
+                        <div class="col-sm-9"><input id="number0" type="text" class="form-control" placeholder="护照" name="number0" /></div>
+                    </div>
+                    <hr />
                 </div>
-            </div>
-            <div class="form-group form-group-padding">
-                <div align="center">
-                    <button type="submit" class="btn btn-default">提交</button>
                 </div>
-            </div>
-        </fieldset>
+                <div class="form-group form-group-padding">
+                    <div align="center">
+                        <button type="button" class="btn btn-default" onclick="prevTab()">上一步</button>
+                        <button type="button" class="btn btn-default" onclick="gotoContractInfo()">确定</button>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+    <div id="contractInfo" role="tabpanel" class="tab-pane fade">
+        <div class="form-narrow form-horizontal" style="border-radius: 0; border: 0; box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.05);">
+            <fieldset>
+                <legend>签订合同</legend>
+                <div class="form-group form-group-padding">
+                    <div>
+                        <textarea id="contract" class="form-control" placeholder="协议" th:field="*{contract}"></textarea>
+                    </div>
+                    <div>
+                        <label><input id="agree" type="checkbox" name="agree" data-error="#errAgree" /> 我已经阅读合同文件并核对订单信息，接受条款中的所有内容。</label>
+                        <div id="errAgree"></div>
+                    </div>
+                </div>
+                <div class="form-group form-group-padding">
+                    <div align="center">
+                        <button type="button" class="btn btn-default" onclick="prevTab()">上一步</button>
+                        <button type="button" class="btn btn-default" onclick="gotoOrderSummary()">确定</button>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+    <div id="orderSummary" role="tabpanel" class="tab-pane fade">
+        <div class="form-narrow form-horizontal" style="border-radius: 0; border: 0; box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.05);">
+            <fieldset>
+                <legend>订单核对</legend>
+                <div class="form-group form-group-padding">
+                    <div>
+                        <label>出行日期：</label>
+                        <span id="dateInfo"></span>
+                    </div>
+                    <div>
+                        <label>联系人：</label>
+                        <span id="contactNameInfo"></span>
+                    </div>
+                    <div>
+                        <label>联系电话：</label>
+                        <span id="phoneInfo"></span>
+                    </div>
+                    <div>
+                        <label>备注：</label>
+                        <span id="commentInfo"></span>
+                    </div>
+                    <div>
+                        <label>出行人：</label>
+                        <span id="touristsInfo"></span>
+                    </div>
+                    <hr />
+                    <div align="center">
+                        <button type="button" class="btn btn-default" onclick="prevTab()">上一步</button>
+                        <button type="submit" class="btn btn-default">完成</button>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </div>
     </form>
+    </div>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
@@ -78,9 +200,180 @@
     <script src="../../../resources/js/bootstrap-number-input.js" th:src="@{/resources/js/bootstrap-number-input.js}"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="../../../resources/js/ie10-viewport-bug-workaround.js" th:src="@{/resources/js/ie10-viewport-bug-workaround.js}"></script>
+    <script src="../../../resources/js/iscroll.js" th:src="@{/resources/js/iscroll.js}"></script>
+    <script src="../../../resources/js/jquery.validate.js" th:src="@{/resources/js/jquery.validate.js}"></script>
+    <script src="../../../resources/js/localization/messages_en.js" th:src="@{'/resources/js/localization/messages_' + ${#locale.language} + '.js'}"></script>
     <script type="text/javascript">
+    // <![CDATA[
     $('#adults').bootstrapNumber();
     $('#kids').bootstrapNumber();
+
+    var orderFormValidator;
+    jQuery(document).ready(function() {
+        if ($('.nav-wizard').height() > ($('.nav-wizard li').height() * 1.5)) {
+            // Nav wrapping
+        }
+        (function($) {
+            $.fn.outerHTML = function(s) {
+                return (s) ? this.before(s).remove() : $('<p>').append(this.eq(0).clone()).html();
+            }
+        })(jQuery);
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+            var target = $(e.target).attr("href") // activated tab
+            if (target == '#detailsInfo') {
+                touristsCount = Number($('#adults').val()) + Number($('#kids').val());
+                if (touristsCount == $('#tourists .tourist').length) {
+                    return;
+                }
+
+                names = [];
+                $('#tourists input[name*="name"]').each(function(index) {
+                    names[index] = $(this).val();
+                });
+                numbers = [];
+                $('#tourists input[name*="number"]').each(function(index) {
+                    numbers[index] = $(this).val();
+                });
+
+                for (i = 0; i < touristsCount; i++) {
+                    newTourist(i, names[i], numbers[i]);
+                }
+                $('#tourists input[name*="name"]').each(function() {
+                    $(this).rules('add', {
+                        required: true,
+                        messages: {
+                            required:  "请输入姓名"
+                        }
+                    });
+                });
+                $('#tourists input[name*="number"]').each(function() {
+                    $(this).rules('add', {
+                        required: true,
+                        messages: {
+                            required:  "请输入护照"
+                        }
+                    });
+                });
+            }
+        });
+
+        orderFormValidator = $("#orderForm").validate({
+            rules: {
+                contactName: {
+                    required: true
+                },
+                phone: {
+                    required: true,
+                    number: true,
+                    minlength: 11
+                },
+                adults: {
+                    required: true
+                },
+                agree: {
+                    required: true
+                }
+            },
+            messages: {
+                contactName: {
+                    required: "请输入联系人"
+                },
+                phone: {
+                    required: "请输入手机号码",
+                    number: "只能输入数字",
+                    minlength: "手机号码为11位"
+                },
+                adults: {
+                    required: "请选择出游人数"
+                },
+                agree: {
+                    required: "请阅读协议并确认同意"
+                }
+            },
+            errorPlacement: function(error, element) {
+                var placement = $(element).data('error');
+                if (placement) {
+                    $(placement).append(error)
+                } else {
+                    error.insertAfter(element);
+                }
+            }
+        });
+    });
+
+    var $tabs = $('#orderTabs li');
+    function prevTab() {
+        $tabs.filter('.active').prev('li').find('a[data-toggle="tab"]').tab('show');
+    }
+    function nextTab() {
+        $tabs.filter('.active').next('li').find('a[data-toggle="tab"]').tab('show');
+    }
+
+    function gotoContractInfo() {
+        isValid = true;
+        $('#tourists input[name*="name"]').each(function () {
+            if (!$(this).valid()) {
+                isValid = false;
+            }
+        });
+        $('#tourists input[name*="number"]').each(function () {
+            if (!$(this).valid()) {
+                isValid = false;
+            }
+        });
+        if (isValid) {
+            nextTab();
+        }
+    }
+
+    function gotoDetailsInfo() {
+        contactNameValid = $('#contactName').valid();
+        phoneValid = $('#phone').valid();
+        adultsValid = $('#adults').valid();
+        if (contactNameValid && phoneValid && adultsValid) {
+            nextTab();
+        }
+    }
+
+    function gotoOrderSummary() {
+        if ($('#agree').valid()) {
+            $('#contactNameInfo').text($('#contactName').val());
+            $('#phoneInfo').text($('#phone').val());
+            $('#commentInfo').text($('#comment').val());
+            touristsInfo = "";
+            $('#tourists .tourist').each(function(index) {
+                touristsInfo += $(this).find('input#name' + index).val() + " ";
+                touristsInfo += $(this).find('input#number' + index).val();
+                touristsInfo += "<br />";
+            });
+            $('#touristsInfo').html(touristsInfo);
+            nextTab();
+        }
+    }
+
+    function newTourist(index, name, number) {
+        var tourist = $('.tourist').outerHTML();
+        if (index == 0) {
+            $('#tourists').html(tourist);
+        } else {
+            var mapObj = {
+                name0: "name" + index,
+                number0: "number" + index
+            };
+            var re = new RegExp(Object.keys(mapObj).join("|"),"gi");
+            tourist = tourist.replace(re, function(matched){
+                return mapObj[matched];
+            });
+            $('#tourists').append(tourist);
+        }
+        if (name != null) {
+            $('#tourists ' + "#name" + index).val(name);
+        }
+        if (number != null) {
+            $('#tourists ' + "#number" + index).val(number);
+        }
+    }
+    // ]]>
     </script>
 </body>
 </html>

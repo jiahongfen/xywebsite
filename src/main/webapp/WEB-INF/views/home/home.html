@@ -134,6 +134,7 @@
 
     <div th:replace="fragments/header :: header">Header</div>
     <div class="container">
+        <div th:text="${#authentication.name}"></div>
         <div class="jumbotron" onclick='changeBanner()' style="background-image: url('./resources/banners/banner001.jpg'); background-size: 100% auto; background-repeat: no-repeat; background-position: center;">
             <h2 align="right" style="color: white;">奥地利户外度假</h2>
             <p align="right" style="color: white;">享受自然风光，领略滑雪激情</p>
@@ -186,9 +187,8 @@
 
         <div th:if="${#authorization.expression('!isAuthenticated()')}">
             <div th:replace="fragments/signupForm :: signupForm">Signup form</div>
+            <hr class="featurette-divider" />
         </div>
-
-        <hr class="featurette-divider" />
 
         <div th:replace="fragments/footer :: footer">&copy; 2013 The Static Templates</div>
     </div>
@@ -246,6 +246,6 @@
             }).trigger('resize');
         });
     </script>
-    <div th:remove="tag" th:replace="fragments/signupForm :: signupFormValidation"></div>
+    <div th:remove="tag" th:replace="fragments/signupForm :: signupFormScript"></div>
 </body>
 </html>
