@@ -14,6 +14,12 @@ public class OrderForm {
     private static final String NOT_BLANK_MESSAGE = "{notBlank.message}";
 
     @NotBlank(message = OrderForm.NOT_BLANK_MESSAGE)
+    private String productId;
+
+    @NotBlank(message = OrderForm.NOT_BLANK_MESSAGE)
+    private String date;
+
+    @NotBlank(message = OrderForm.NOT_BLANK_MESSAGE)
     private String contactName;
 
     @NotBlank(message = OrderForm.NOT_BLANK_MESSAGE)
@@ -31,7 +37,7 @@ public class OrderForm {
     private List<Tourist> tourists = new ArrayList<Tourist>();
 
     public Ordar createOrder() throws JsonProcessingException {
-        return new Ordar(getContactName(), getPhone(), toInt(getAdults()), toInt(getKids()), getComment(),
+        return new Ordar(getProductId(), getDate(), getContactName(), getPhone(), toInt(getAdults()), toInt(getKids()), getComment(),
                 getTouristsInfo());
     }
 
@@ -43,6 +49,22 @@ public class OrderForm {
             // Ignore
         }
         return i;
+    }
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getContactName() {

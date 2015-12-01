@@ -26,6 +26,8 @@ import com.xiangyou.account.Tourist;
 public class OrderController {
     static final Logger logger = LoggerFactory.getLogger(OrderController.class);
 
+    public static final String ATTR_PRODUCT = "product";
+
     private static final String ORDER_VIEW_NAME = "product/order";
     @Autowired
     private OrderRepository orderRepository;
@@ -43,8 +45,10 @@ public class OrderController {
         }
         OrderForm orderForm = new OrderForm();
         String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        orderForm.setProductId(product.getId());
         orderForm.setPhone(username);
         model.addAttribute(orderForm);
+        model.addAttribute(ATTR_PRODUCT, product);
         return "/product/order";
     }
 

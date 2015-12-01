@@ -28,6 +28,8 @@
         <table class="table">
             <thead>
                 <tr>
+                    <th>ProductId</th>
+                    <th>Date</th>
                     <th>Username</th>
                     <th>Contact name</th>
                     <th>Contact phone</th>
@@ -39,6 +41,8 @@
             </thead>
             <tbody>
                 <tr th:each="order : ${orderList}">
+                    <td th:text="${order.productId}"></td>
+                    <td th:text="${order.date}"></td>
                     <td th:text="${order.username}"></td>
                     <td th:text="${order.contactName}"></td>
                     <td th:text="${order.phone}"></td>

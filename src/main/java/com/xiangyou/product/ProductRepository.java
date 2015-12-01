@@ -57,6 +57,9 @@ public class ProductRepository {
     public static final String JOURTAG_FEEPLAN = "FeePlan";
     public static final String JOURTAG_IMAGES = "Images";
 
+    public static final String JOURDATE = "\\$JOURDATE";
+    public static final String SEATS_REMAINING = "\\$SEATS_REMAINING";
+
     private Map<String, Product> products;
     private File productsFolder;
 
@@ -160,7 +163,7 @@ public class ProductRepository {
         if (brief == null || brief.isEmpty()) {
             return;
         }
-        product.setBrief(toString(brief));
+        product.setBrief(toString(brief).replaceFirst(JOURDATE, "<span id='jourDate'></span>"));
     }
 
     private void getHighlights(Product product, List<String> highlights) {

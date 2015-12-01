@@ -22,6 +22,8 @@
 <!-- Custom styles for this project -->
 <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />
 
+<link href="../../../resources/css/bootstrap-datepicker3.min.css" rel="stylesheet" th:href="@{/resources/css/bootstrap-datepicker3.min.css}" />
+
 <style type="text/css">
     .form-group-padding {
         padding-left: 20px;
@@ -46,36 +48,44 @@
     <div th:replace="fragments/header :: header">Header</div>
     <div class="container">
     <!-- Nav tabs -->
-    <ul id="orderTabs" class="nav nav-tabs" role="tablist">
+    <ul id="orderTabs" class="nav nav-wizard" role="tablist">
         <li role="presentation" class="active">
-            <a class="hide" href="#baseInfo" aria-controls="baseInfo" role="tab" data-toggle="tab">提交订单</a>
-            <a>提交订单</a>
-        </li>
-        <li role="presentation">
-            <a class="hide" href="#detailsInfo" aria-controls="detailsInfo" role="tab" data-toggle="tab">完善资料</a>
-            <a>完善资料</a>
+            <a class="hide" href="#orderInfo" aria-controls="orderInfo" role="tab" data-toggle="tab">填写订单</a>
+            <a>填写订单</a>
         </li>
         <li role="presentation">
             <a class="hide" href="#contractInfo" aria-controls="contractInfo" role="tab" data-toggle="tab">签订合同</a>
             <a>签订合同</a>
         </li>
         <li role="presentation">
-            <a class="hide" href="#orderSummary" aria-controls="orderSummary" role="tab" data-toggle="tab">订单核对</a>
-            <a>订单核对</a>
+            <a class="hide" href="#orderSummary" aria-controls="orderSummary" role="tab" data-toggle="tab">支付订单</a>
+            <a>支付订单</a>
         </li>
     </ul>
     <!-- Tab panes -->
     <form id="orderForm" class="tab-content" action="#" method="post" th:action="@{/product/doOrder}" th:object="${orderForm}">
-    <div id="baseInfo" role="tabpanel" class="tab-pane fade in active">
+    <div id="orderInfo" role="tabpanel" class="tab-pane fade in active">
         <div class="form-narrow form-horizontal" style="border-radius: 0; border: 0; box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.05);">
             <fieldset>
-                <legend>填写出游信息</legend>
+                <legend>出游信息</legend>
+                <div class="form-group form-group-padding">
+                    <div>
+                        <h4 th:text="${product.name}"></h4>
+                        <input type="hidden" th:field="*{productId}" />
+                    </div>
+                </div>
+                <div class="form-group form-group-padding" th:classappend="${#fields.hasErrors('date')}? 'has-error'">
+                    <div>
+                        <input id="date" class="form-control" value="" type="text" placeholder="出游日期" th:field="*{date}" />
+                        <span class="help-block" th:if="${#fields.hasErrors('date')}" th:errors="*{date}">Incorrect jour date</span>
+                    </div>
+                </div>
                 <div class="form-group form-group-padding">
                     <div th:classappend="${#fields.hasErrors('adults')}? 'has-error'" style="float: left; width: 49%;">
-                        <input id="adults" class="form-control" type="number" min="1" max="10" placeholder="成人" th:field="*{adults}" style="z-index: 9" data-error="#errAdults" />
+                        <input id="adults" class="form-control" type="number" min="1" max="10" placeholder="成人" th:field="*{adults}" style="z-index: 9" data-error="#errAdults" onchange="onAdultsChanged(this)" />
                     </div>
                     <div style="float: right; width: 49%;">
-                        <input id="kids" class="form-control" type="number" min="0" max="10" placeholder="儿童" th:field="*{kids}" style="z-index: 9" />
+                        <input id="kids" class="form-control" type="number" min="0" max="10" placeholder="儿童" th:field="*{kids}" style="z-index: 9" onchange="onKidsChanged(this)" />
                     </div>
                     <div id="errAdults"></div>
                     <div th:classappend="${#fields.hasErrors('adults')}? 'has-error'" style="clear: both;">
@@ -94,39 +104,27 @@
                         <span class="help-block" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Incorrect phone</span>
                     </div>
                 </div>
-                <div class="form-group form-group-padding">
+                <div class="form-group form-group-padding hide">
                     <div>
                         <textarea id="comment" class="form-control" placeholder="备注" th:field="*{comment}"></textarea>
                     </div>
                 </div>
-                <div class="form-group form-group-padding">
-                    <div align="center">
-                        <button type="button" class="btn btn-default" onclick="gotoDetailsInfo()">确定</button>
-                    </div>
-                </div>
-            </fieldset>
-        </div>
-    </div>
-    <div id="detailsInfo" role="tabpanel" class="tab-pane fade">
-        <div class="form-narrow form-horizontal" style="border-radius: 0; border: 0; box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.05);">
-            <fieldset>
-                <legend>完善信息</legend>
+                <legend>游客信息</legend>
                 <div id="tourists">
-                <div class="tourist">
-                    <div class="row padding-bottom">
-                        <label for="name0" class="col-sm-3 control-label">姓名</label>
-                        <div class="col-sm-9"><input id="name0" type="text" class="form-control" placeholder="姓名" name="name0" /></div>
+                    <div class="tourist">
+                        <div class="row padding-bottom">
+                            <label for="name0" class="col-sm-3 control-label">姓名</label>
+                            <div class="col-sm-9"><input id="name0" type="text" class="form-control" placeholder="姓名" name="name0" /></div>
+                        </div>
+                        <div class="row">
+                            <label for="number0" class="col-sm-3 control-label">护照</label>
+                            <div class="col-sm-9"><input id="number0" type="text" class="form-control" placeholder="护照" name="number0" /></div>
+                        </div>
+                        <hr />
                     </div>
-                    <div class="row">
-                        <label for="number0" class="col-sm-3 control-label">护照</label>
-                        <div class="col-sm-9"><input id="number0" type="text" class="form-control" placeholder="护照" name="number0" /></div>
-                    </div>
-                    <hr />
-                </div>
                 </div>
                 <div class="form-group form-group-padding">
                     <div align="center">
-                        <button type="button" class="btn btn-default" onclick="prevTab()">上一步</button>
                         <button type="button" class="btn btn-default" onclick="gotoContractInfo()">确定</button>
                     </div>
                 </div>
@@ -142,7 +140,7 @@
                         <textarea id="contract" class="form-control" placeholder="协议" th:field="*{contract}"></textarea>
                     </div>
                     <div>
-                        <label><input id="agree" type="checkbox" name="agree" data-error="#errAgree" /> 我已经阅读合同文件并核对订单信息，接受条款中的所有内容。</label>
+                        <label><input id="agree" type="checkbox" name="agree" data-error="#errAgree" /> 我已阅读合同文件并接受条款中的所有内容。</label>
                         <div id="errAgree"></div>
                     </div>
                 </div>
@@ -160,6 +158,9 @@
             <fieldset>
                 <legend>订单核对</legend>
                 <div class="form-group form-group-padding">
+                    <div>
+                        <h4 th:text="${product.name}"></h4>
+                    </div>
                     <div>
                         <label>出行日期：</label>
                         <span id="dateInfo"></span>
@@ -202,11 +203,55 @@
     <script src="../../../resources/js/ie10-viewport-bug-workaround.js" th:src="@{/resources/js/ie10-viewport-bug-workaround.js}"></script>
     <script src="../../../resources/js/iscroll.js" th:src="@{/resources/js/iscroll.js}"></script>
     <script src="../../../resources/js/jquery.validate.js" th:src="@{/resources/js/jquery.validate.js}"></script>
+    <script src="../../../resources/js/bootstrap-datepicker.min.js" th:src="@{/resources/js/bootstrap-datepicker.min.js}"></script>
     <script src="../../../resources/js/localization/messages_en.js" th:src="@{'/resources/js/localization/messages_' + ${#locale.language} + '.js'}"></script>
+    <script src="../../../resources/js/localization/validator_en.js" th:src="@{'/resources/js/localization/validator_' + ${#locale.language} + '.js'}"></script>
+    <script src="../../../resources/js/localization/datepicker_zh.js" th:src="@{'/resources/js/localization/datepicker_' + ${#locale.language} + '.js'}"></script>
     <script type="text/javascript">
     // <![CDATA[
     $('#adults').bootstrapNumber();
     $('#kids').bootstrapNumber();
+
+    function updateTouristsInfo() {
+        touristsCount = Number($('#adults').val()) + Number($('#kids').val());
+        if (touristsCount == 0) {
+            touristsCount = 1;
+        }
+
+        names = [];
+        $('#tourists input[name*="name"]').each(function(index) {
+            names[index] = $(this).val();
+        });
+        numbers = [];
+        $('#tourists input[name*="number"]').each(function(index) {
+            numbers[index] = $(this).val();
+        });
+
+        for (i = 0; i < touristsCount; i++) {
+            newTourist(i, names[i], numbers[i]);
+        }
+
+        addTouristsRules();
+    }
+
+    function addTouristsRules() {
+        $('#tourists input[name*="name"]').each(function() {
+            $(this).rules('add', {
+                required: true,
+                messages: {
+                    required:  "请输入姓名"
+                }
+            });
+        });
+        $('#tourists input[name*="number"]').each(function() {
+            $(this).rules('add', {
+                required: true,
+                messages: {
+                    required:  "请输入护照"
+                }
+            });
+        });
+    }
 
     var orderFormValidator;
     jQuery(document).ready(function() {
@@ -220,45 +265,13 @@
         })(jQuery);
         $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
             var target = $(e.target).attr("href") // activated tab
-            if (target == '#detailsInfo') {
-                touristsCount = Number($('#adults').val()) + Number($('#kids').val());
-                if (touristsCount == $('#tourists .tourist').length) {
-                    return;
-                }
-
-                names = [];
-                $('#tourists input[name*="name"]').each(function(index) {
-                    names[index] = $(this).val();
-                });
-                numbers = [];
-                $('#tourists input[name*="number"]').each(function(index) {
-                    numbers[index] = $(this).val();
-                });
-
-                for (i = 0; i < touristsCount; i++) {
-                    newTourist(i, names[i], numbers[i]);
-                }
-                $('#tourists input[name*="name"]').each(function() {
-                    $(this).rules('add', {
-                        required: true,
-                        messages: {
-                            required:  "请输入姓名"
-                        }
-                    });
-                });
-                $('#tourists input[name*="number"]').each(function() {
-                    $(this).rules('add', {
-                        required: true,
-                        messages: {
-                            required:  "请输入护照"
-                        }
-                    });
-                });
-            }
         });
 
         orderFormValidator = $("#orderForm").validate({
             rules: {
+                date: {
+                    required: true
+                },
                 contactName: {
                     required: true
                 },
@@ -275,6 +288,9 @@
                 }
             },
             messages: {
+                date: {
+                    required: "请选择出游时间"
+                },
                 contactName: {
                     required: "请输入联系人"
                 },
@@ -299,7 +315,35 @@
                 }
             }
         });
+
+        updateTouristsInfo();
+
+        $('#date').datepicker({
+            todayBtn: true,
+            language: "zh",
+            beforeShowDay: function (date){
+                          if (date.getMonth() == (new Date()).getMonth())
+                            switch (date.getDate()){
+                              case 4:
+                                return {
+                                  tooltip: 'Example tooltip',
+                                  classes: 'disabled'
+                                };
+                              case 8:
+                                return false;
+                              case 12:
+                                return "green";
+                          }
+                        }
+        });
     });
+
+    function onAdultsChanged(input) {
+        updateTouristsInfo();
+    }
+    function onKidsChanged(input) {
+        updateTouristsInfo();
+    }
 
     var $tabs = $('#orderTabs li');
     function prevTab() {
@@ -310,18 +354,24 @@
     }
 
     function gotoContractInfo() {
-        isValid = true;
+        dateValid = $('#date').valid();
+        contactNameValid = $('#contactName').valid();
+        phoneValid = $('#phone').valid();
+        adultsValid = $('#adults').valid();
+
+        touristsValid = true;
         $('#tourists input[name*="name"]').each(function () {
             if (!$(this).valid()) {
-                isValid = false;
+                touristsValid = false;
             }
         });
         $('#tourists input[name*="number"]').each(function () {
             if (!$(this).valid()) {
-                isValid = false;
+                touristsValid = false;
             }
         });
-        if (isValid) {
+
+        if (dateValid && contactNameValid && phoneValid && adultsValid && touristsValid) {
             nextTab();
         }
     }

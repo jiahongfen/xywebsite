@@ -19,6 +19,7 @@
                 }
 
                 clone.focus().val(n);
+                clone.trigger('onchange');
                 return true;
             }
 
