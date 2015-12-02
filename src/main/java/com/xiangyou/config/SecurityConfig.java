@@ -225,7 +225,7 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/", "/favicon.ico", "/resources/**", "/signin", "/signup", "/product/details",
                         /*"/product/order", "/product/doOrder", "/product/orderSuccess", */"/product/orderList",
-                        "/product/features", "/sendCode")
+                        "/product/features", "/sendCode", "/about", "/contact")
                 .permitAll().anyRequest().authenticated().and().formLogin().loginPage("/signin").permitAll()
                 .failureUrl(DEFAULT_FAILURE_URL).loginProcessingUrl("/authenticate")
                 .failureHandler(authenticationFailureHandler()).and()
