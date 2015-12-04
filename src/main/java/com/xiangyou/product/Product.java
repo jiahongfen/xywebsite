@@ -114,11 +114,11 @@ public class Product {
         }
 
         public void addPicture(String name, String image) {
-            pictures.put(name, image);
+            this.pictures.put(name, image);
         }
 
         public void addAllPictures(Map<String, String> pictures) {
-            pictures.putAll(pictures);
+            this.pictures.putAll(pictures);
         }
 
         public void appendDetail(String detail) {

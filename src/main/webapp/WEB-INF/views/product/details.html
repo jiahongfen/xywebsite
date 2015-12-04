@@ -39,7 +39,7 @@
                     <!-- Swiper -->
                     <div class="swiper-container">
                         <div class="swiper-wrapper" th:each="slide : ${product.slides}" >
-                            <div class="swiper-slide slide" th:style="'background-image: url(' + ${slide.image} + ');'"></div>
+                            <div class="swiper-slide slide" th:style="'background-image: url(' + @{${slide.image}} + ');'"></div>
                         </div>
                         <!-- Add Pagination -->
                         <div class="swiper-pagination"></div>
@@ -81,7 +81,7 @@
                     <div th:utext="${day.details}"></div>
                 </div>
                 <div class="col-sm-6">
-                    <div class="col-sm-6 jour-pic-wrapper" th:each="picture : ${day.pictures}" style="padding: 5px;"><img alt="" th:src="${picture.value}" width="100%" height="auto" /><br/><div class=''>
+                    <div class="col-sm-6 jour-pic-wrapper" th:each="picture : ${day.pictures}" style="padding: 5px;"><img alt="" th:src="@{${picture.value}}" width="100%" height="auto" /><br/><div class=''>
                         <p class='jour-pic-desc-content' th:text="${picture.key}"></p>
                     </div></div>
                 </div>

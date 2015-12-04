@@ -43,7 +43,7 @@ public class ProductRepository {
     public static final String PREFIX_SLIDE = "slide";
     public static final Pattern TITLE_INDEX_PATTERN = Pattern.compile("^\\d+[., ，、]");
 
-    public static final Pattern JOURTAG_PATTERN = Pattern.compile("^<.+>$");
+    public static final Pattern JOURTAG_PATTERN = Pattern.compile("^<[^<>]+>$");
 
     public static final Pattern FEEPLAN_SUB = Pattern.compile("^.+[:：]$");
 
@@ -341,9 +341,10 @@ public class ProductRepository {
 
     private void findJourneyPics(Day day, int index, Map<String, Map<String, String>> journeyPicsMap) {
         Map<String, String> pictures = journeyPicsMap.get(PREFIX_DAY + index);
-        day.addAllPictures(pictures);
-        for (Entry<String, String> entry : pictures.entrySet()) {
-            day.addPicture(entry.getKey(), entry.getValue());
+        if (pictures != null) {
+            for (Entry<String, String> entry : pictures.entrySet()) {
+                day.addPicture(entry.getKey(), entry.getValue());
+            }
         }
     }
 
